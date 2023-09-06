@@ -1,41 +1,33 @@
-import { Component } from 'react';
 import { FeedbackWidget } from './FeedbackWidget/FeedbackWidget';
+import { useState } from 'react';
 
-export class App extends Component {
-  state = {
+export const App = () => {
+  const [feedback, setFeedback] = useState({
     good: 0,
     neutral: 0,
     bad: 0,
+  });
+
+  const handlerClick = e => {
+    const key = e.target.textContent.toLowerCase();
+    setFeedback(prevState => ({ ...prevState, [key]: prevState[key] + 1 }));
   };
 
-  handlerClick = e => {
-    this.setState(prevState => ({
-      [e.target.textContent.toLowerCase()]:
-        prevState[e.target.textContent.toLowerCase()] + 1,
-    }));
-  };
+  const countTotalFeedback = () =>
+    Object.values(feedback).reduce((acc, cur) => acc + cur);
 
-  countTotalFeedback = () =>
-    Object.values(this.state).reduce((acc, cur) => acc + cur);
+  const countPositiveFeedbackPercentage = () =>
+    Math.round((feedback.good / (countTotalFeedback() || 1)) * 100);
 
-  countPositiveFeedbackPercentage = () =>
-    Math.round((this.state.good / (this.countTotalFeedback() || 1)) * 100);
-
-  render() {
-    const { good, neutral, bad } = this.state;
-
-    return (
-      <>
-        <FeedbackWidget
-          good={good}
-          neutral={neutral}
-          bad={bad}
-          options={Object.keys(this.state)}
-          onClick={this.handlerClick}
-          countTotalFeedback={this.countTotalFeedback}
-          countPositiveFeedbackPercentage={this.countPositiveFeedbackPercentage}
-        />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <FeedbackWidget
+        values={Object.values(feedback)}
+        options={Object.keys(feedback)}
+        onClick={handlerClick}
+        countTotalFeedback={countTotalFeedback}
+        countPositiveFeedbackPercentage={countPositiveFeedbackPercentage}
+      />
+    </>
+  );
+};

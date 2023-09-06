@@ -1,23 +1,15 @@
 import { StatisticsList, StatisticsText } from './Statistics.styled';
 
-export const Statistics = ({
-  good,
-  neutral,
-  bad,
-  total,
-  positivePercentage,
-}) => {
+export const Statistics = ({ values, options, total, positivePercentage }) => {
   return (
     <StatisticsList>
-      <li>
-        <StatisticsText>Good: {good}</StatisticsText>
-      </li>
-      <li>
-        <StatisticsText>Neutral: {neutral}</StatisticsText>
-      </li>
-      <li>
-        <StatisticsText>Bad: {bad}</StatisticsText>
-      </li>
+      {options.map((el, i) => (
+        <li>
+          <StatisticsText>
+            {el[0].toUpperCase() + el.slice(1)}: {values[i]}
+          </StatisticsText>
+        </li>
+      ))}
       <li>
         <StatisticsText>Total: {total()}</StatisticsText>
       </li>

@@ -5,9 +5,7 @@ import { Section } from 'components/Section/Section';
 import { WidgetWrapper } from './FeedbackWidget.styled';
 
 export const FeedbackWidget = ({
-  good,
-  neutral,
-  bad,
+  values,
   options,
   onClick,
   countTotalFeedback,
@@ -21,9 +19,8 @@ export const FeedbackWidget = ({
       {countTotalFeedback() ? (
         <Section title={'Statistics'}>
           <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
+            values={values}
+            options={options}
             total={countTotalFeedback}
             positivePercentage={countPositiveFeedbackPercentage}
           />
